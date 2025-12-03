@@ -2,9 +2,9 @@
 const loginScreen = document.getElementById('loginScreen');
 const learningScreen = document.getElementById('learningScreen');
 const resultsScreen = document.getElementById('resultsScreen');
-const phoneNumberInput = document.getElementById('phoneNumber');
+const userNameInput = document.getElementById('userNameInput');
 const startLearningBtn = document.getElementById('startLearning');
-const phoneError = document.getElementById('phoneError');
+const nameError = document.getElementById('nameError');
 const backBtn = document.getElementById('backBtn');
 const progressFill = document.getElementById('progressFill');
 const questionCounter = document.getElementById('questionCounter');
@@ -168,8 +168,8 @@ function initializeApp() {
     }
     
     // Event listeners
-    phoneNumberInput.addEventListener('input', validatePhoneNumber);
-    phoneNumberInput.addEventListener('keypress', function(e) {
+    userNameInput.addEventListener('input', validateName);
+    userNameInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter' && startLearningBtn.disabled === false) {
             startLearning();
         }
@@ -179,73 +179,55 @@ function initializeApp() {
     backBtn.addEventListener('click', goBackToLogin);
     continueBtn.addEventListener('click', handleContinue);
     
-    // Formatear número mientras se escribe
-    phoneNumberInput.addEventListener('input', formatPhoneNumber);
-    
     console.log('🚀 WhatsApp Learning App iniciada');
 }
 
-function formatPhoneNumber() {
-    let value = phoneNumberInput.value.replace(/\D/g, ''); // Solo números
+function validateName() {
+    const name = userNameInput.value.trim();
+    const errorElement = document.getElementById('nameError');
     
-    // Limitar a 9 dígitos
-    if (value.length > 9) {
-        value = value.substring(0, 9);
-    }
-    
-    // Formatear: 987 654 321
-    let formattedValue = '';
-    if (value.length >= 1) {
-        formattedValue = value.substring(0, 3);
-        if (value.length >= 4) {
-            formattedValue += ' ' + value.substring(3, 6);
-            if (value.length >= 7) {
-                formattedValue += ' ' + value.substring(6, 9);
-            }
-        }
-    }
-    
-    phoneNumberInput.value = formattedValue;
-}
-
-function validatePhoneNumber() {
-    const phoneNumber = phoneNumberInput.value.replace(/\s/g, ''); // Quitar espacios
-    const phoneRegex = /^9\d{8}$/; // Número peruano: 9XXXXXXXX
-    
-    const errorElement = document.getElementById('phoneError');
-    
-    if (phoneNumber.length === 0) {
+    if (name.length === 0) {
         errorElement.textContent = '';
         errorElement.classList.remove('show');
         startLearningBtn.disabled = true;
         return false;
     }
     
-    if (!phoneRegex.test(phoneNumber)) {
-        if (phoneNumber.length < 9) {
-            errorElement.textContent = 'El número debe tener 9 dígitos';
-        } else if (!phoneNumber.startsWith('9')) {
-            errorElement.textContent = 'El número debe comenzar con 9';
-        } else {
-            errorElement.textContent = 'Formato de número inválido';
-        }
+    if (name.length < 2) {
+        errorElement.textContent = 'El nombre debe tener al menos 2 caracteres';
         errorElement.classList.add('show');
         startLearningBtn.disabled = true;
         return false;
-    } else {
-        errorElement.textContent = '';
-        errorElement.classList.remove('show');
-        startLearningBtn.disabled = false;
-        return true;
     }
+    
+    if (name.length > 50) {
+        errorElement.textContent = 'El nombre no puede exceder 50 caracteres';
+        errorElement.classList.add('show');
+        startLearningBtn.disabled = true;
+        return false;
+    }
+    
+    // Validar que solo contenga letras, espacios y algunos caracteres especiales
+    const nameRegex = /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ\s]+$/;
+    if (!nameRegex.test(name)) {
+        errorElement.textContent = 'El nombre solo puede contener letras';
+        errorElement.classList.add('show');
+        startLearningBtn.disabled = true;
+        return false;
+    }
+    
+    errorElement.textContent = '';
+    errorElement.classList.remove('show');
+    startLearningBtn.disabled = false;
+    return true;
 }
 
 function startLearning() {
-    if (!validatePhoneNumber()) return;
+    if (!validateName()) return;
     
-    const phoneNumber = phoneNumberInput.value.replace(/\s/g, '');
+    const userName = userNameInput.value.trim();
     currentUser = {
-        phone: phoneNumber,
+        name: userName,
         startTime: new Date().toISOString(),
         progress: 0
     };
@@ -519,15 +501,28 @@ function goBackToLogin() {
         showScreen('login');
         
         // Limpiar formulario
-        phoneNumberInput.value = '';
+        userNameInput.value = '';
         startLearningBtn.disabled = true;
-        document.getElementById('phoneError').classList.remove('show');
+        document.getElementById('nameError').classList.remove('show');
     }
 }
 
 function showResults() {
+    // Cambiar a la pantalla de resultados
+    showScreen('results');
+    
     const accuracy = Math.round((correctAnswers / questions.length) * 100);
     const passed = accuracy >= 60;
+    
+    // Mostrar el nombre del usuario
+    const userNameElement = document.getElementById('userName');
+    if (currentUser && currentUser.name) {
+        userNameElement.textContent = currentUser.name;
+        console.log('Nombre mostrado:', currentUser.name);
+    } else {
+        userNameElement.textContent = 'Usuario';
+        console.log('No se encontró el nombre del usuario');
+    }
     
     // Actualizar estadísticas
     document.getElementById('correctAnswers').textContent = correctAnswers;

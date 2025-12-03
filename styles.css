@@ -145,7 +145,8 @@ body {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
@@ -973,4 +974,94 @@ body {
     .progress-header {
         padding-top: max(15px, env(safe-area-inset-top));
     }
+}
+
+/* Name input styling */
+#userNameInput {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid #e8e8e8;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    background: #ffffff;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+    color: #2c2c2c;
+    text-align: center;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#userNameInput:focus {
+    outline: none;
+    border-color: #25D366;
+    background: linear-gradient(135deg, #f8fffa 0%, #ffffff 100%);
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.15);
+    transform: translateY(-1px);
+}
+
+#userNameInput::placeholder {
+    color: #a0a0a0;
+    font-weight: 400;
+    font-style: italic;
+}
+
+#userNameInput:hover {
+    border-color: #25D366;
+    box-shadow: 0 3px 12px rgba(37, 211, 102, 0.1);
+}
+
+/* Label styling for name input */
+.form-group label[for="userNameInput"] {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c2c2c;
+    font-size: 1rem;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.form-group:focus-within label[for="userNameInput"] {
+    color: #25D366;
+}
+
+/* Animation for valid input */
+#userNameInput.valid {
+    border-color: #25D366;
+    background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+}
+
+/* Input validation styling */
+#userNameInput:valid:not(:placeholder-shown) {
+    border-color: #25D366;
+    background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+}
+
+/* User name display in results */
+.user-name-display {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #FFFFFF !important;
+    margin: 0.25rem 0;
+    text-align: center;
+    line-height: 1.2;
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #2C2C2C !important;
+    text-shadow: none;
+}
+
+/* Congratulations name styling */
+.congratulations-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #25D366;
+    margin: 0.5rem 0 1rem 0;
+    text-align: center;
 }
