@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>WhatsApp Learning - Registro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Pantalla de Registro -->
+    <div id="loginScreen" class="screen active">
+        <div class="mobile-container">
+            <div class="main-card">
+                <div class="header">
+                    <div class="logo-container">
+                        <i class="fab fa-whatsapp logo-icon"></i>
+                        <h1 class="title">Aprendiendo WhatsApp</h1>
+                    </div>
+                    <p class="subtitle">Aprende WhatsApp de forma fácil y divertida</p>
+                </div>
+                
+                <div class="login-form">
+                    <div class="form-group">
+                        <label for="phoneNumber">Número de teléfono</label>
+                        <div class="phone-input-container">
+                            <div class="country-code">
+                                <span class="flag">🇵🇪</span>
+                                <span>+51</span>
+                            </div>
+                            <input type="tel" id="phoneNumber" placeholder="987 654 321" maxlength="11">
+                        </div>
+                        <div id="phoneError" class="error-message"></div>
+                    </div>
+                    
+                    <button id="startLearning" class="start-btn" disabled>
+                        <i class="fas fa-rocket"></i>
+                        <span>Comenzar a Aprender</span>
+                    </button>
+                    
+                    <div class="info-card">
+                        <h4>🎯 ¿Qué aprenderás?</h4>
+                        <ul>
+                            <li>✅ Enviar mensajes básicos</li>
+                            <li>✅ Hacer llamadas y videollamadas</li>
+                            <li>✅ Compartir fotos y videos</li>
+                            <li>✅ Crear y usar grupos</li>
+                            <li>✅ Configuración de privacidad</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Aprendizaje -->
+    <div id="learningScreen" class="screen">
+        <div class="mobile-container">
+            <!-- Header de progreso -->
+            <div class="progress-header">
+                <div class="progress-info">
+                    <button id="backBtn" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <span id="questionCounter" class="question-counter">1/5</span>
+                    </div>
+                    <div class="lives-container">
+                        <i class="fas fa-heart life-heart active"></i>
+                        <i class="fas fa-heart life-heart active"></i>
+                        <i class="fas fa-heart life-heart active"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido de la pregunta -->
+            <div class="question-container">
+                <div class="question-card">
+                    <div class="question-header">
+                        <div class="question-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h2 id="questionTitle" class="question-title">¿Cómo enviar un mensaje en WhatsApp?</h2>
+                    </div>
+                    
+                    <div id="questionContent" class="question-content">
+                        <!-- Contenido dinámico de pregunta -->
+                    </div>
+                </div>
+
+                <!-- Botones de respuesta -->
+                <div id="answersContainer" class="answers-container">
+                    <!-- Respuestas dinámicas -->
+                </div>
+
+                <!-- Botón continuar -->
+                <button id="continueBtn" class="continue-btn" disabled>
+                    <span>Continuar</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Resultados -->
+    <div id="resultsScreen" class="screen">
+        <div class="mobile-container">
+            <div class="results-card">
+                <div class="results-header">
+                    <div id="resultsIcon" class="results-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h2 id="resultsTitle">¡Felicitaciones!</h2>
+                    <p id="resultsSubtitle">Has completado el curso básico de WhatsApp</p>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-number" id="correctAnswers">5</div>
+                        <div class="stat-label">Respuestas correctas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalQuestions">5</div>
+                        <div class="stat-label">Total preguntas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="accuracy">100%</div>
+                        <div class="stat-label">Precisión</div>
+                    </div>
+                </div>
+
+                <div class="achievements">
+                    <h3>🏆 Logros obtenidos</h3>
+                    <div id="achievementsList" class="achievements-list">
+                        <!-- Logros dinámicos -->
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="restartBtn" class="restart-btn">
+                        <i class="fas fa-redo"></i>
+                        Practicar de nuevo
+                    </button>
+                    <button id="shareBtn" class="share-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        Compartir logro
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Elementos de feedback -->
+    <div id="feedbackOverlay" class="feedback-overlay">
+        <div class="feedback-content">
+            <div id="feedbackIcon" class="feedback-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 id="feedbackTitle">¡Correcto!</h3>
+            <p id="feedbackMessage">Excelente respuesta</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
