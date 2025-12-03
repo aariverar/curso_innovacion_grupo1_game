@@ -396,10 +396,12 @@ function checkAnswer() {
     
     if (isCorrect) {
         correctAnswers++;
+        playSound('victory');
         showFeedback(true, '¡Correcto!', question.explanation);
     } else {
         lives--;
         updateHearts();
+        playSound('defeat');
         showFeedback(false, 'Incorrecto', question.explanation);
         
         if (lives === 0) {
@@ -418,6 +420,54 @@ function checkAnswer() {
     }
     
     continueBtn.disabled = false;
+}
+
+// Función para reproducir sonidos
+function playSound(type) {
+    // Crear contexto de audio
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    if (type === 'victory') {
+        // Sonido de victoria: secuencia ascendente alegre
+        const frequencies = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        frequencies.forEach((freq, index) => {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(freq, audioContext.currentTime + index * 0.1);
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime + index * 0.1);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + index * 0.1 + 0.05);
+            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + index * 0.1 + 0.2);
+            
+            oscillator.start(audioContext.currentTime + index * 0.1);
+            oscillator.stop(audioContext.currentTime + index * 0.1 + 0.2);
+        });
+    } else if (type === 'defeat') {
+        // Sonido de derrota: secuencia descendente
+        const frequencies = [523.25, 466.16, 415.30, 369.99]; // C5, A#4, G#4, F#4
+        frequencies.forEach((freq, index) => {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(freq, audioContext.currentTime + index * 0.15);
+            oscillator.type = 'triangle';
+            
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime + index * 0.15);
+            gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + index * 0.15 + 0.05);
+            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + index * 0.15 + 0.3);
+            
+            oscillator.start(audioContext.currentTime + index * 0.15);
+            oscillator.stop(audioContext.currentTime + index * 0.15 + 0.3);
+        });
+    }
 }
 
 function showFeedback(isCorrect, title, message) {
